@@ -1,24 +1,29 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { TileLayer, Marker, Popup, useMapEvents, Polyline } from 'react-leaflet'
+import { LatLngExpression, LeafletMouseEvent } from 'leaflet';
+import useRoute from './useRoute';
 
-function App() {
+const App = () => {
+  const [route, setCoord] = useRoute();
+  useMapEvents({
+    click: (e: LeafletMouseEvent) => {
+      setCoord(e.latlng);
+    }
+  });
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>,
+      <TileLayer
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+      />
+      <Marker position={[45.4620335, -73.5850831]}>
+        <Popup>
+          A pretty CSS3 popup. <br /> Easily customizable.
+        </Popup>
+      </Marker>
+      <Polyline positions={route}/>
     </div>
   );
 }
